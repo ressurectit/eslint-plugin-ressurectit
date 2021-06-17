@@ -1,0 +1,35 @@
+{
+    "compilerOptions":
+    {
+        "target": "ES2018",
+        "module": "CommonJS",
+        "moduleResolution": "Node",
+        "outDir": "lib",
+        "declaration": true,
+        "declarationMap": true,
+        "declarationDir": ".",
+        "inlineSourceMap": true,
+        "inlineSources": true,
+        "rootDir": "src",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "noImplicitReturns": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "strict": true,
+        "esModuleInterop": true,
+        "newLine": "lf",
+        "lib":
+        [
+            "ES2015",
+            "ES2016",
+            "ES2017",
+            "ES2018"
+        ]
+    },
+    "exclude":
+    [
+        "node_modules",
+        "lib"
+    ]
+}

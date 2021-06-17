@@ -1,0 +1,55 @@
+{
+    "name": "eslint-plugin-ressurectit",
+    "version": "0.0.0-placeholder",
+    "description": "RessurectIT specific ESlint rules",
+    "sideEffects": false,
+    "scripts": {
+        "build": "tsc",
+        "clean": "rimraf lib src/**/*.d.ts src/**/*.d.ts.map",
+        "clean:deps": "rimraf package-lock.json node_modules",
+        "clean:all": "npm run clean && npm run clean:deps",
+        "ngc": "ngc",
+        "version:placeholder": "replace-in-file /\\\"version\\\":\\s\\\".*?\\\"/g \"\\\"version\\\": \\\"0.0.0-placeholder\\\"\" package.json --isRegex",
+        "version:git": "ngv -e \"replace-in-file 0.0.0-placeholder $GIT_VERSION package.json && echo $GIT_VERSION > version.bak\"",
+        "version:build": "ngv -e \"echo $GIT_VERSION > version.bak\"",
+        "prepublishOnly": "npm run bundle && npm run version:placeholder && npm run version:git",
+        "postpublish": "npm run version:placeholder && npm run clean",
+        "bundle": "npm run clean && npm run build",
+        "deploy": "npm publish --loglevel error",
+        "deploy:next": "npm publish --tag next --loglevel error",
+        "start": "tsc -w"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ressurectit/eslint-plugin-ressurectit.git"
+    },
+    "keywords": [
+        "eslint",
+        "eslintplugin",
+        "eslint-plugin"
+    ],
+    "author": "kukjevov",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/ressurectit/eslint-plugin-ressurectit/issues"
+    },
+    "homepage": "https://github.com/ressurectit/eslint-plugin-ressurectit",
+    "main": "lib/index.js",
+    "engines": {
+        "node": ">=12.0.0"
+    },
+    "peerDependencies": {
+        "@typescript-eslint/eslint-plugin": "^4.0.0"
+    },
+    "dependencies": {
+        "@typescript-eslint/experimental-utils": "4.27.0"
+    },
+    "devDependencies": {
+        "@types/node": "15.12.2",
+        "eslint": "7.28.0",
+        "rimraf": "3.0.2",
+        "replace-in-file": "6.2.0",
+        "typescript": "4.3.3",
+        "npm-git-version": "2.0.0"
+    }
+}

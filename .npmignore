@@ -1,0 +1,11 @@
+/.vscode
+/tests
+tsconfig.json
+ngv.config.json
+
+*.ts
+!*.d.ts
+
+*~
+*.orig
+*.log
