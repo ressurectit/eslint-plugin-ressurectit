@@ -4,14 +4,13 @@
  */
 
 import rules from './rules';
+import recommended from './configs/recommended';
 
- export = {
-    rules
-    // configs: {
-    //   all,
-    //   base,
-    //   recommended,
-    //   'eslint-recommended': eslintRecommended,
-    //   'recommended-requiring-type-checking': recommendedRequiringTypeChecking,
-    // },
+export =
+{
+    rules,
+    configs:
+    {
+        recommended
+    }
 };

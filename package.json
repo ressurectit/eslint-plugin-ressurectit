@@ -46,6 +46,7 @@
     },
     "devDependencies": {
         "@types/node": "15.12.2",
+        "@jscrpt/common": "1.2.0-beta.20201113143549",
         "eslint": "7.28.0",
         "rimraf": "3.0.2",
         "replace-in-file": "6.2.0",
