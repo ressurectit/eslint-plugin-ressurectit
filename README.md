@@ -1,3 +1,5 @@
+[![npm version](https://badge.fury.io/js/%40anglr%2Fcommon.svg)](https://badge.fury.io/js/%40anglr%2Fcommon)
+[![Build status](https://ci.appveyor.com/api/projects/status/rte0wrgbgsbxhmjf?svg=true)](https://ci.appveyor.com/project/kukjevov/eslint-plugin-ressurectit)
 # eslint-plugin-ressurectit
 
 RessurectIT specific ESlint rules
