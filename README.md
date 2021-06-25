@@ -1,4 +1,4 @@
-[![npm version](https://badge.fury.io/js/%40anglr%2Fcommon.svg)](https://badge.fury.io/js/%40anglr%2Fcommon)
+[![npm version](https://badge.fury.io/js/eslint-plugin-ressurectit.svg)](https://badge.fury.io/js/eslint-plugin-ressurectit)
 [![Build status](https://ci.appveyor.com/api/projects/status/rte0wrgbgsbxhmjf?svg=true)](https://ci.appveyor.com/project/kukjevov/eslint-plugin-ressurectit)
 # eslint-plugin-ressurectit
 
