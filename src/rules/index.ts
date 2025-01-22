@@ -1,8 +1,8 @@
 import importsOrder from './imports-order';
 import importsSpacing from './imports-spacing';
 
-export =
+export default
 {
     'imports-order': importsOrder,
-    'imports-spacing': importsSpacing
+    'imports-spacing': importsSpacing,
 };

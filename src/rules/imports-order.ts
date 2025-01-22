@@ -4,9 +4,9 @@
  */
 
 import {isString} from '@jscrpt/common';
-import {AST_NODE_TYPES} from '@typescript-eslint/experimental-utils';
-import type {RuleFix} from '@typescript-eslint/experimental-utils/dist/ts-eslint';
-import type {ImportDeclaration} from '@typescript-eslint/types/dist/ast-spec';
+import {AST_NODE_TYPES} from '@typescript-eslint/utils';
+import type {RuleFix} from '@typescript-eslint/utils/dist/ts-eslint';
+import type {ImportDeclaration} from '@typescript-eslint/types/dist/generated/ast-spec';
 
 import {createRule} from '../utils';
 
@@ -14,19 +14,17 @@ import {createRule} from '../utils';
 // Rule Definition
 //------------------------------------------------------------------------------
 
-export = createRule(
+export default createRule(
 {
     name: 'imports-order',
     meta:
     {
         docs:
         {
-            category: 'Stylistic Issues',
             description: 'Checks whether are imports in correct order',
-            recommended: "warn",
+            recommended: 'stylistic',
             requiresTypeChecking: false,
             extendsBaseRule: false,
-            suggestion: false
         },
         messages: 
         {
@@ -42,7 +40,7 @@ export = createRule(
     create(context)
     {
         const order = ['@angular/core', '@angular', '@anglr', '@jscrpt', '@'];
-        const sourceCode = context.getSourceCode();
+        const sourceCode = context.sourceCode;
 
         return {
             Program(node)

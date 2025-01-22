@@ -1,9 +1,9 @@
 {
     "compilerOptions":
     {
-        "target": "ES2018",
-        "module": "CommonJS",
-        "moduleResolution": "Node",
+        "target": "ES2022",
+        "module": "ES2022",
+        "moduleResolution": "node",
         "outDir": "lib",
         "declaration": true,
         "declarationMap": true,
@@ -13,11 +13,19 @@
         "rootDir": "src",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
+        "noImplicitAny": true,
         "noImplicitReturns": true,
+        "noImplicitOverride": true,
+        "noImplicitThis": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "strict": true,
+        "strictNullChecks": false,
         "esModuleInterop": true,
+        "importHelpers": true,
+        "useDefineForClassFields": false,
+        "skipLibCheck": false,
+        "forceConsistentCasingInFileNames": true,
         "newLine": "lf",
         "lib":
         [
@@ -25,6 +33,7 @@
             "ES2016",
             "ES2017",
             "ES2018",
+            "ES2022",
             "DOM"
         ]
     },
@@ -32,5 +41,9 @@
     [
         "node_modules",
         "lib"
+    ],
+    "include": 
+    [
+        "src/**/*.ts"
     ]
 }
