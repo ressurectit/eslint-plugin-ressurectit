@@ -1,5 +1,5 @@
-import importsOrder from './imports-order';
-import importsSpacing from './imports-spacing';
+import importsOrder from './imports-order.js';
+import importsSpacing from './imports-spacing.js';
 
 export default
 {

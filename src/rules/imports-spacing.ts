@@ -7,7 +7,7 @@ import {AST_NODE_TYPES} from '@typescript-eslint/utils';
 //  import type {RuleFix} from '@typescript-eslint/utils/dist/ts-eslint';
 import type {ImportDeclaration} from '@typescript-eslint/types/dist/generated/ast-spec';
 
-import {createRule} from '../utils';
+import {createRule} from '../utils/index.js';
 
 //------------------------------------------------------------------------------
 // Rule Definition

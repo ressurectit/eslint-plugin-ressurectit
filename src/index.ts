@@ -3,8 +3,8 @@
  * @author kukjevov
  */
 
-import meta from './meta';
-import rules from './rules';
+import meta from './meta/index.js';
+import rules from './rules/index.js';
 
 const plugin =
 {
