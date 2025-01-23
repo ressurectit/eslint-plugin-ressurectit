@@ -84,6 +84,9 @@ Object.assign(plugin.configs,
                 '@stylistic/comma-dangle': 'warn',
                 '@stylistic/space-infix-ops': 'off',
                 '@stylistic/spaced-comment': 'off',
+                '@stylistic/lines-between-class-members': 'off',
+                '@stylistic/indent-binary-ops': 'off',
+                '@stylistic/no-floating-decimal': 'off',
                 '@stylistic/arrow-parens':
                 [
                     'warn',
@@ -119,9 +122,25 @@ Object.assign(plugin.configs,
                             {
                                 after: true,
                             },
+                            export:
+                            {
+                                after: true,
+                            },
                             from:
                             {
                                 before: true,
+                                after: true,
+                            },
+                            extends:
+                            {
+                                before: true,
+                            },
+                            as:
+                            {
+                                before: true,
+                            },
+                            return:
+                            {
                                 after: true,
                             },
                         },

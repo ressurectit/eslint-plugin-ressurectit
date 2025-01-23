@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 0.3.0 (2025-01-23)
+
+### Features
+
+- added more rules to `recommended` config
+
 ## Version 0.2.1 (2025-01-23)
 
 - fixed github release `0.2.0`
