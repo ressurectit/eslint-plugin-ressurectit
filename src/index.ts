@@ -20,7 +20,7 @@ Object.assign(plugin.configs,
         {
             plugins:
             {
-                example: plugin
+                ressurectit: plugin
             },
             rules:
             {
