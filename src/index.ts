@@ -80,6 +80,76 @@ Object.assign(plugin.configs,
                         'ImportDeclaration': 'first'
                     }
                 ],
+                '@stylistic/eol-last': 'warn',
+                '@stylistic/comma-dangle': 'warn',
+                '@stylistic/space-infix-ops': 'off',
+                '@stylistic/spaced-comment': 'off',
+                '@stylistic/arrow-parens':
+                [
+                    'warn',
+                    'as-needed',
+                ],
+                '@stylistic/space-before-function-paren':
+                [
+                    'warn',
+                    {
+                        anonymous: 'never',
+                        named: 'never',
+                    },
+                ],
+                '@stylistic/object-curly-spacing':
+                [
+                    'warn',
+                    'never',
+                ],
+                '@stylistic/block-spacing':
+                [
+                    'warn',
+                    'never',
+                ],
+                '@stylistic/keyword-spacing':
+                [
+                    'warn',
+                    {
+                        before: false,
+                        after: false,
+                        overrides:
+                        {
+                            import:
+                            {
+                                after: true,
+                            },
+                            from:
+                            {
+                                before: true,
+                                after: true,
+                            },
+                        },
+                    },
+                ],
+                '@stylistic/member-delimiter-style':
+                [
+                    'warn',
+                    {
+                        multiline:
+                        {
+                            delimiter: 'semi',
+                            requireLast: true,
+                        },
+                        singleline:
+                        {
+                            delimiter: 'semi',
+                            requireLast: false,
+                        },
+                    },
+                ],
+                '@stylistic/operator-linebreak':
+                [
+                    'warn',
+                    'after',
+                ],
+                '@typescript-eslint/no-unsafe-function-type': 'warn',
+                '@typescript-eslint/no-explicit-any': 'warn',
                 '@typescript-eslint/no-empty-function': 'off',
                 '@typescript-eslint/no-unused-vars': 'off',
                 '@typescript-eslint/no-inferrable-types': 'off',
