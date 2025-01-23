@@ -41,18 +41,23 @@
     },
     "dependencies": {
         "@jscrpt/common": ">=7.0.0",
-        "@typescript-eslint/eslint-plugin": ">=8.20.0",
-        "@typescript-eslint/types": ">=8.20.0",
-        "@typescript-eslint/utils": ">=8.20.0",
-        "tslib": "^2.8.1"
+        "@stylistic/eslint-plugin": ">=2.13.0",
+        "@typescript-eslint/types": ">=8.21.0",
+        "eslint": ">=9.18.0",
+        "tslib": "^2.8.1",
+        "typescript-eslint": ">=8.21.0"
     },
     "devDependencies": {
-        "@types/node": "22.10.7",
         "@jscrpt/common": "7.0.0",
+        "@stylistic/eslint-plugin": "2.13.0",
+        "@types/node": "22.10.7",
+        "@typescript-eslint/types": "8.21.0",
         "eslint": "9.18.0",
-        "rimraf": "6.0.1",
+        "npm-git-version": "2.0.0",
         "replace-in-file": "8.3.0",
+        "rimraf": "6.0.1",
+        "tslib": "2.8.1",
         "typescript": "5.7.3",
-        "npm-git-version": "2.0.0"
+        "typescript-eslint": "8.21.0"
     }
 }
