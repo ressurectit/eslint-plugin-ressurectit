@@ -143,6 +143,10 @@ Object.assign(plugin.configs,
                             {
                                 after: true,
                             },
+                            type:
+                            {
+                                after: true,
+                            },
                         },
                     },
                 ],
@@ -173,6 +177,7 @@ Object.assign(plugin.configs,
                 '@typescript-eslint/no-unused-vars': 'off',
                 '@typescript-eslint/no-inferrable-types': 'off',
                 '@typescript-eslint/ban-ts-comment': 'off',
+                '@typescript-eslint/no-empty-object-type': 'off',
                 'ressurectit/imports-order': 'error',
                 'ressurectit/imports-spacing': 'warn',
             },
