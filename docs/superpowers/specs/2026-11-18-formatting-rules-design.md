@@ -37,7 +37,7 @@ Anti-goals
 
 - Already done (uncommitted, part of this release): dependency upgrade – eslint 10.15, @stylistic 6.0.1,
   typescript-eslint 8.72.2, TypeScript 6.0.3 (7.x unsupported by typescript-eslint), `@eslint/js` added,
-  `engines.node` `^20.19.0 || ^22.13.0 || >=24`.
+  `engines.node` `^22.22.2 || >=24.15.0` (Node 20 dropped – EOL, required by eslint-plugin-jsdoc 65).
 - New dependency: `eslint-plugin-jsdoc` (latest).
 - ESM, TypeScript sources in `src/`, built by `tsc` to `lib/`. Existing style: Allman, 4 spaces, JSDoc on members.
 - Release as **1.0.0** (breaking). Update `changelog.md`, `docs/rules/*.md`, README.
@@ -80,7 +80,8 @@ the 120-char limit (B.4, F.2, F.3) = `warn`; `imports-order` stays `error`.
    ```
 4. Member chains: first `.call()` on a new line +4 from the chain head line, following ones aligned with the
    previous dot.
-5. Multi-line `&&`/`||` conditions: continuation aligned with the first operand (column after `if(`).
+5. Multi-line `&&`/`||` conditions: continuation aligned with the first operand (column after `if(`). Strict – a
+   continuation starting with `!` must not hang left.
 6. Multi-line ternary: branches +4.
 7. `case` +4 inside `switch`; the case block `{` at the same column as `case`.
 8. Ignored: template-literal contents, comment-only lines, import declarations.
@@ -175,7 +176,8 @@ Applies to `@Component`, `@Directive`, `@NgModule` (*builder's call:* also `@Pip
 1. `error`: blank line before and after `if/for/while/do/switch/try` unless first/last in block.
 2. `error`: blank line before `return/throw/break/continue` unless first in block.
 3. `warn`: blank line after a `const`/`let` group before other statements (consecutive declarations: any).
-Also: `@stylistic/lines-between-class-members: always` (comments between members ok); `padded-blocks never`
+Also: `lines-between-class-members: always` (comments between members ok; **a getter directly followed by its
+setter may be glued**); `padded-blocks never`
 (already); no blank line between JSDoc / decorators / member (custom check inside E's rule or B's – builder's choice).
 
 ### I. JSDoc – `eslint-plugin-jsdoc`
