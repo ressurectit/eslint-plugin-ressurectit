@@ -4,8 +4,8 @@
  */
 
 import {AST_NODE_TYPES} from '@typescript-eslint/utils';
-//  import type {RuleFix} from '@typescript-eslint/utils/dist/ts-eslint';
-import type {ImportDeclaration} from '@typescript-eslint/types/dist/generated/ast-spec';
+//  import type {RuleFix} from '@typescript-eslint/utils/ts-eslint';
+import type {TSESTree} from '@typescript-eslint/utils';
 
 import {createRule} from '../utils/index.js';
 
@@ -46,7 +46,7 @@ export default createRule(
         return {
             Program(node)
             {
-                let imports: ImportDeclaration[] = node.body.filter(itm => itm.type == AST_NODE_TYPES.ImportDeclaration) as any;
+                let imports: TSESTree.ImportDeclaration[] = node.body.filter(itm => itm.type == AST_NODE_TYPES.ImportDeclaration) as any;
                 let newLine = /\r\n/.test(sourceCode.getText(node)) ? '\r\n' : '\n';
 
                 if(imports.length)

@@ -4,12 +4,16 @@ Rule which checks order of `import` sources.
 
 Recommended order is as follows.
  - `@angular/core`
- - starting with `@angular`
- - starting with `@anglr`
- - starting with `@jscrpt`
- - starting with `@`
- - any other non relative imports
+ - `@angular/core/*` (for example `@angular/core/rxjs-interop`)
+ - other `@angular/*`
+ - `@anglr/*`
+ - `@jscrpt/common` (and `@jscrpt/common/*`)
+ - other `@jscrpt/*`
+ - other scoped packages (`@*/*`)
+ - other absolute imports
  - relative imports
+
+Groups are matched on the scope segment and package name, not on a raw prefix, so `@angularx-foo/bar` is an *other scoped* package.
 
 
 ## Rule Details

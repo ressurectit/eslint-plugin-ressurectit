@@ -3,16 +3,62 @@
  * @author kukjevov
  */
 
-import {isString} from '@jscrpt/common';
 import {AST_NODE_TYPES} from '@typescript-eslint/utils';
-import type {RuleFix} from '@typescript-eslint/utils/dist/ts-eslint';
-import type {ImportDeclaration} from '@typescript-eslint/types/dist/generated/ast-spec';
+import type {RuleFix} from '@typescript-eslint/utils/ts-eslint';
+import type {TSESTree} from '@typescript-eslint/utils';
 
 import {createRule} from '../utils/index.js';
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
+
+/**
+ * Gets group index of import source, matches on scope segment and package name, never on raw prefix
+ * @param source - Import source (module specifier)
+ * @returns Index of group, 0 `@angular/core`, 1 `@angular/core/*`, 2 `@angular/*`, 3 `@anglr/*`, 4 `@jscrpt/common`, 5 other `@jscrpt/*`, 6 other scoped, 7 other absolute, 8 relative
+ */
+function getImportGroup(source: string): number
+{
+    if(source.startsWith('.'))
+    {
+        return 8;
+    }
+
+    if(!source.startsWith('@'))
+    {
+        return 7;
+    }
+
+    const segments = source.split('/');
+    const scope = segments[0];
+    const pkg = segments[1];
+
+    switch(scope)
+    {
+        case '@angular':
+        {
+            if(pkg == 'core')
+            {
+                return segments.length > 2 ? 1 : 0;
+            }
+
+            return 2;
+        }
+        case '@anglr':
+        {
+            return 3;
+        }
+        case '@jscrpt':
+        {
+            return pkg == 'common' ? 4 : 5;
+        }
+        default:
+        {
+            return 6;
+        }
+    }
+}
 
 export default createRule(
 {
@@ -28,7 +74,7 @@ export default createRule(
         },
         messages: 
         {
-            "msg": "Imports are not in recommended order. First '@angular/core', '@angular/*', '@anglr/*', '@*/*', '*', './*'"
+            "msg": "Imports are not in recommended order: '@angular/core', '@angular/core/*', '@angular/*', '@anglr/*', '@jscrpt/common', '@jscrpt/*', other scoped, other absolute, relative"
         },
         schema:
         [
@@ -39,198 +85,62 @@ export default createRule(
     defaultOptions: [],
     create(context)
     {
-        const order = ['@angular/core', '@angular', '@anglr', '@jscrpt', '@'];
         const sourceCode = context.sourceCode;
 
         return {
             Program(node)
             {
-                let imports: ImportDeclaration[] = node.body.filter(itm => itm.type == AST_NODE_TYPES.ImportDeclaration) as any;
-                
-                if(imports.length)
+                const imports = node.body.filter(itm => itm.type == AST_NODE_TYPES.ImportDeclaration) as TSESTree.ImportDeclaration[];
+
+                if(!imports.length)
                 {
-                    let faulty = false;
-                    let lastIndex = -1;
-                    let relative = false;
-                    let general = false;
+                    return;
+                }
 
-                    for(let x = 0; x < imports.length; x++)
+                const groups = imports.map(itm => getImportGroup(itm.source.value as string));
+                let faulty = false;
+
+                for(let x = 1; x < groups.length; x++)
+                {
+                    if(groups[x] < groups[x - 1])
                     {
-                        let $import = imports[x];
-                        let name = $import.source.value as string;
-                        let hasOrder = order.find(itm => name.startsWith(itm));
+                        faulty = true;
 
-                        if(hasOrder)
-                        {
-                            //relative or general npm was already present
-                            if(relative || general)
-                            {
-                                faulty = true;
-
-                                break;
-                            }
-
-                            let orderIndex = order.indexOf(hasOrder);
-
-                            //out of order
-                            if(orderIndex < lastIndex)
-                            {
-                                faulty = true;
-
-                                break;
-                            }
-
-                            lastIndex = orderIndex;
-
-                            continue;
-                        }
-
-                        //general
-                        if(!name.startsWith('.'))
-                        {
-                            //relative was already present
-                            if(relative)
-                            {
-                                faulty = true;
-
-                                break;
-                            }
-
-                            general = true;
-
-                            continue;
-                        }
-
-                        //relative
-                        if(name.startsWith('.'))
-                        {
-                            relative = true;
-                        }
-                    }
-
-                    if(faulty)
-                    {
-                        context.report(
-                        {
-                            messageId: "msg",
-                            node,
-                            loc:
-                            {
-                                start: imports[0].loc.start,
-                                end: imports[imports.length - 1].loc.end
-                            },
-                            fix(fixer)
-                            {
-                                const ordered = [...imports].sort((first, second) =>
-                                {
-                                    if(!isString(first.source.value) || !isString(second.source.value))
-                                    {
-                                        return 0;
-                                    }
-
-                                    if(first.source.value == "@angular/core")
-                                    {
-                                        return -1;
-                                    }
-
-                                    if(second.source.value == "@angular/core")
-                                    {
-                                        return 1;
-                                    }
-
-                                    if(first.source.value.startsWith("@angular") && second.source.value.startsWith("@angular"))
-                                    {
-                                        return 0;
-                                    }
-
-                                    if(first.source.value.startsWith("@angular"))
-                                    {
-                                        return -1;
-                                    }
-
-                                    if(second.source.value.startsWith("@angular"))
-                                    {
-                                        return 1;
-                                    }
-
-                                    if(first.source.value.startsWith("@anglr") && second.source.value.startsWith("@anglr"))
-                                    {
-                                        return 0;
-                                    }
-
-                                    if(first.source.value.startsWith("@anglr"))
-                                    {
-                                        return -1;
-                                    }
-
-                                    if(second.source.value.startsWith("@anglr"))
-                                    {
-                                        return 1;
-                                    }
-
-                                    if(first.source.value.startsWith("@jscrpt") && second.source.value.startsWith("@jscrpt"))
-                                    {
-                                        return 0;
-                                    }
-
-                                    if(first.source.value.startsWith("@jscrpt"))
-                                    {
-                                        return -1;
-                                    }
-
-                                    if(second.source.value.startsWith("@jscrpt"))
-                                    {
-                                        return 1;
-                                    }
-
-                                    if(first.source.value.startsWith("@") && second.source.value.startsWith("@"))
-                                    {
-                                        return 0;
-                                    }
-
-                                    if(first.source.value.startsWith("@"))
-                                    {
-                                        return -1;
-                                    }
-
-                                    if(second.source.value.startsWith("@"))
-                                    {
-                                        return 1;
-                                    }
-
-                                    if(first.source.value.startsWith(".") && second.source.value.startsWith("."))
-                                    {
-                                        return 0;
-                                    }
-
-                                    if(!first.source.value.startsWith("."))
-                                    {
-                                        return -1;
-                                    }
-
-                                    if(!second.source.value.startsWith("."))
-                                    {
-                                        return 1;
-                                    }
-
-                                    return 0;
-                                });
-
-                                let result: RuleFix[] = [];
-
-                                for(let x = 0; x < ordered.length; x++)
-                                {
-                                    let original = imports[x];
-                                    let orderedOne = ordered[x];
-
-                                    result.push(fixer.replaceText(original, sourceCode.getText(orderedOne)));
-                                }
-
-                                return result;
-                            }
-                        });
+                        break;
                     }
                 }
+
+                if(!faulty)
+                {
+                    return;
+                }
+
+                context.report(
+                {
+                    messageId: "msg",
+                    node,
+                    loc:
+                    {
+                        start: imports[0].loc.start,
+                        end: imports[imports.length - 1].loc.end
+                    },
+                    fix(fixer)
+                    {
+                        const ordered = imports
+                            .map((itm, index) => ({itm, index, group: groups[index]}))
+                            .sort((first, second) => first.group - second.group || first.index - second.index)
+                            .map(itm => itm.itm);
+
+                        const result: RuleFix[] = [];
+
+                        for(let x = 0; x < ordered.length; x++)
+                        {
+                            result.push(fixer.replaceText(imports[x], sourceCode.getText(ordered[x])));
+                        }
+
+                        return result;
+                    }
+                });
             }
         };
     }

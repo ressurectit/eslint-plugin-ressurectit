@@ -1,5 +1,5 @@
 import {ESLintUtils} from '@typescript-eslint/utils';
-import type {RuleRecommendation, RuleRecommendationAcrossConfigs} from '@typescript-eslint/utils/dist/ts-eslint';
+import type {RuleRecommendation, RuleRecommendationAcrossConfigs} from '@typescript-eslint/utils/ts-eslint';
 
 export interface ESLintPluginDocs 
 {

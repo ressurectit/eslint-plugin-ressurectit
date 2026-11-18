@@ -1,5 +1,9 @@
 /.vscode
 /tests
+/docs/superpowers
+/docs/verification
+/.superpowers
+/.worktrees
 tsconfig.json
 ngv.config.json
 

@@ -79,12 +79,18 @@ the 120-char limit (B.4, F.2, F.3) = `warn`; `imports-order` stays `error`.
    }, undefined, 'Show console'));
    ```
 4. Member chains: first `.call()` on a new line +4 from the chain head line, following ones aligned with the
-   previous dot.
+   previous dot. A chain line may also be +4 deeper than the previous dot (d3 idiom, e.g. after
+   `.transition()`); owner decision. A chain line may also be aligned with a dot that sits on the chain head line
+   (`return fixture.debugElement.queryAll(…)` ⏎ `.filter(…)` under `.debugElement`, `cfg.writeTo(…)` ⏎ `.minimumLevel(…)`
+   under `.writeTo`); owner decision (Task 14). The fix of a wrong line is unchanged (chain column or previous dot).
 5. Multi-line `&&`/`||` conditions: continuation aligned with the first operand (column after `if(`). Strict – a
    continuation starting with `!` must not hang left.
 6. Multi-line ternary: branches +4.
 7. `case` +4 inside `switch`; the case block `{` at the same column as `case`.
-8. Ignored: template-literal contents, comment-only lines, import declarations.
+8. Ignored: template-literal contents (including a template literal that starts its own line, e.g. `template:\n`),
+   comment-only lines, import declarations.
+   Single-argument nested call with lambda (`.pipe(map(x =>\n{`): body `{` at statement indent only (inner column is
+   valid only when several arguments are aligned per A.3) – owner decision.
 9. Autofix.
 
 ### B. Brace placement of literals – custom rule (e.g. `ressurectit/literal-brace-style`)
@@ -108,7 +114,9 @@ No spaces around `|` and `&` in types (`A|B`, `A&B`). Value operators keep space
 ### E. Region titles – custom `ressurectit/region-titles` (report only, no fix, no suggestions)
 1. Format: `//######################### <name> #########################` (exactly 25 `#` each side, single spaces).
 2. Blank line before (unless first in block) and after the title. **Exception:** `constructor` title is directly
-   followed by `constructor(` (no blank line, no JSDoc).
+   followed by `constructor(` (no blank line, no JSDoc). Any title (known or unknown) directly followed by a
+   constructor skips the blank-line-after check, e.g. `constructors` ⏎ `constructor(` reports only the unknown name;
+   owner decision (Task 14).
 3. Applies only to titles directly inside a **class body**; classes need them only when non-trivial
    (*builder's call:* the rule does not require titles to exist; it validates those present). Titles in interfaces,
    spec `describe` blocks and file level (e.g. UPPERCASE titles in `app.providers.ts`) are ignored.

@@ -3,7 +3,8 @@
  * @author kukjevov
  */
 import eslint from '@eslint/js';
-import stylistic from '@stylistic/eslint-plugin'
+import stylistic from '@stylistic/eslint-plugin';
+import jsdoc from 'eslint-plugin-jsdoc';
 import tseslint from 'typescript-eslint';
 
 import meta from './meta/index.js';
@@ -22,11 +23,12 @@ Object.assign(plugin.configs,
     [
         eslint.configs.recommended,
         ...tseslint.configs.recommended,
-        stylistic.configs['recommended-flat'],
+        stylistic.configs.recommended,
         {
             plugins:
             {
                 ressurectit: plugin,
+                jsdoc,
             },
             rules:
             {
@@ -58,31 +60,34 @@ Object.assign(plugin.configs,
                     'error',
                     'single',
                 ],
-                '@stylistic/indent': 
+                '@stylistic/indent': 'off',
+                'curly':
                 [
                     'warn',
-                    4,
-                    {
-                        'VariableDeclarator': 'first',
-                        'FunctionDeclaration':
-                        {
-                            'parameters': 'first'
-                        },
-                        'FunctionExpression':
-                        {
-                            'parameters': 'first'
-                        },
-                        'CallExpression':
-                        {
-                            'arguments': 'first'
-                        },
-                        'ArrayExpression': 'first',
-                        'ImportDeclaration': 'first'
-                    }
+                    'all',
                 ],
                 '@stylistic/eol-last': 'warn',
-                '@stylistic/comma-dangle': 'warn',
-                '@stylistic/space-infix-ops': 'off',
+                '@stylistic/comma-dangle':
+                [
+                    'warn',
+                    {
+                        arrays: 'always-multiline',
+                        objects: 'always-multiline',
+                        imports: 'always-multiline',
+                        exports: 'always-multiline',
+                        enums: 'always-multiline',
+                        tuples: 'always-multiline',
+                        generics: 'ignore',
+                        functions: 'ignore',
+                    },
+                ],
+                '@stylistic/space-infix-ops':
+                [
+                    'warn',
+                    {
+                        ignoreTypes: true,
+                    },
+                ],
                 '@stylistic/spaced-comment': 'off',
                 '@stylistic/lines-between-class-members': 'off',
                 '@stylistic/indent-binary-ops': 'off',
@@ -98,12 +103,42 @@ Object.assign(plugin.configs,
                     {
                         anonymous: 'never',
                         named: 'never',
+                        asyncArrow: 'always',
+                        catch: 'never',
                     },
                 ],
-                '@stylistic/object-curly-spacing':
+                '@stylistic/list-style':
                 [
                     'warn',
-                    'never',
+                    {
+                        singleLine:
+                        {
+                            spacing: 'never',
+                        },
+                        overrides:
+                        {
+                            '()': 'off',
+                            '<>': 'off',
+                            '{}':
+                            {
+                                singleLine:
+                                {
+                                    spacing: 'never',
+                                },
+                            },
+                            ImportDeclaration:
+                            {
+                                singleLine:
+                                {
+                                    spacing: 'never',
+                                },
+                                multiLine:
+                                {
+                                    minItems: Number.MAX_SAFE_INTEGER,
+                                },
+                            },
+                        },
+                    },
                 ],
                 '@stylistic/block-spacing':
                 [
@@ -138,12 +173,69 @@ Object.assign(plugin.configs,
                             as:
                             {
                                 before: true,
+                                after: true,
+                            },
+                            satisfies:
+                            {
+                                before: true,
+                                after: true,
                             },
                             return:
                             {
                                 after: true,
                             },
                             type:
+                            {
+                                after: true,
+                            },
+                            case:
+                            {
+                                after: true,
+                            },
+                            of:
+                            {
+                                after: true,
+                                before: true,
+                            },
+                            in:
+                            {
+                                after: true,
+                                before: true,
+                            },
+                            const:
+                            {
+                                after: true,
+                            },
+                            let:
+                            {
+                                after: true,
+                            },
+                            new:
+                            {
+                                after: true,
+                            },
+                            typeof:
+                            {
+                                after: true,
+                            },
+                            instanceof:
+                            {
+                                after: true,
+                                before: true,
+                            },
+                            await:
+                            {
+                                after: true,
+                            },
+                            yield:
+                            {
+                                after: true,
+                            },
+                            delete:
+                            {
+                                after: true,
+                            },
+                            void:
                             {
                                 after: true,
                             },
@@ -180,6 +272,99 @@ Object.assign(plugin.configs,
                 '@typescript-eslint/no-empty-object-type': 'off',
                 'ressurectit/imports-order': 'error',
                 'ressurectit/imports-spacing': 'warn',
+                'ressurectit/indent': 'warn',
+                'ressurectit/literal-brace-style': 'warn',
+                'ressurectit/switch-case-braces': 'warn',
+                'ressurectit/type-operator-spacing': 'warn',
+                'ressurectit/region-titles': 'warn',
+                'ressurectit/decorator-layout': 'warn',
+                'ressurectit/argument-layout': 'warn',
+                'ressurectit/line-wrapping': 'warn',
+                'ressurectit/angular-metadata': 'warn',
+                '@stylistic/padding-line-between-statements':
+                [
+                    'error',
+                    {
+                        blankLine: 'always',
+                        prev: '*',
+                        next: ['if', 'for', 'while', 'do', 'switch', 'try'],
+                    },
+                    {
+                        blankLine: 'always',
+                        prev: ['if', 'for', 'while', 'do', 'switch', 'try'],
+                        next: '*',
+                    },
+                    {
+                        blankLine: 'always',
+                        prev: '*',
+                        next: ['return', 'throw', 'break', 'continue'],
+                    },
+                ],
+                'ressurectit/padding-line-between-statements':
+                [
+                    'warn',
+                    {
+                        blankLine: 'always',
+                        prev: ['const', 'let'],
+                        next: '*',
+                    },
+                    {
+                        blankLine: 'any',
+                        prev: ['const', 'let'],
+                        next: ['const', 'let', 'if', 'for', 'while', 'do', 'switch', 'try', 'return', 'throw', 'break', 'continue'],
+                    },
+                ],
+                'ressurectit/lines-between-class-members':
+                [
+                    'warn',
+                    'always',
+                ],
+                'jsdoc/multiline-blocks':
+                [
+                    'warn',
+                    {
+                        noSingleLineBlocks: true,
+                    },
+                ],
+                'jsdoc/check-alignment': 'warn',
+                'jsdoc/require-hyphen-before-param-description':
+                [
+                    'warn',
+                    'always',
+                ],
+                'jsdoc/require-jsdoc':
+                [
+                    'warn',
+                    {
+                        enableFixer: false,
+                        require:
+                        {
+                            FunctionDeclaration: false,
+                            ClassDeclaration: false,
+                            MethodDefinition: false,
+                            ArrowFunctionExpression: false,
+                            FunctionExpression: false,
+                            ClassExpression: false,
+                        },
+                        contexts:
+                        [
+                            'ClassDeclaration',
+                            'TSInterfaceDeclaration',
+                            'TSTypeAliasDeclaration',
+                            'TSEnumDeclaration',
+                            'Program > FunctionDeclaration',
+                            'Program > ExportNamedDeclaration > FunctionDeclaration',
+                            'Program > ExportDefaultDeclaration > FunctionDeclaration',
+                            'Program > ExportNamedDeclaration:has(> VariableDeclaration)',
+                            "MethodDefinition:not([kind='constructor']):not([kind='set'])",
+                            'TSAbstractMethodDefinition',
+                            'PropertyDefinition',
+                            'TSAbstractPropertyDefinition',
+                            'AccessorProperty',
+                            'TSInterfaceBody > TSPropertySignature',
+                        ],
+                    },
+                ],
             },
         }
     ],
